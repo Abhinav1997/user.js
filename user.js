@@ -71,7 +71,11 @@ user_pref("dom.netinfo.enabled",				false);
 
 // PREF: Disable WebRTC entirely to prevent leaking internal IP addresses (Firefox < 42)
 // NOTICE: Disabling WebRTC breaks peer-to-peer file sharing tools (reep.io ...)
-user_pref("media.peerconnection.enabled",			false);
+user_pref("media.peerconnection.enabled",		false);
+user_pref("media.peerconnection.turn.disable",                        true);
+user_pref("media.peerconnection.use_document_iceservers",        false);
+user_pref("media.peerconnection.video.enabled",                        false);
+user_pref("media.peerconnection.identity.timeout",                1);
 
 // PREF: Don't reveal your internal IP when WebRTC is enabled (Firefox >= 42)
 // https://wiki.mozilla.org/Media/WebRTC/Privacy
@@ -386,7 +390,7 @@ user_pref("dom.ipc.plugins.reportCrashURL",			false);
 // PREF: When Flash is enabled, download and use Mozilla SWF URIs blocklist
 // https://bugzilla.mozilla.org/show_bug.cgi?id=1237198
 // https://github.com/mozilla-services/shavar-plugin-blocklist
-user_pref("browser.safebrowsing.blockedURIs.enabled", true);
+user_pref("browser.safebrowsing.blockedURIs.enabled", false);
 
 // PREF: Disable Shumway (Mozilla Flash renderer)
 // https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Shumway
@@ -546,13 +550,13 @@ user_pref("app.update.enabled",                 true);
 // https://support.mozilla.org/en-US/kb/how-does-phishing-and-malware-protection-work
 // http://forums.mozillazine.org/viewtopic.php?f=39&t=2711237&p=12896849#p12896849
 // CIS 2.3.4
-user_pref("browser.safebrowsing.enabled",			true); // Firefox < 50
-user_pref("browser.safebrowsing.phishing.enabled",		true); // firefox >= 50
+user_pref("browser.safebrowsing.enabled",			false); // Firefox < 50
+user_pref("browser.safebrowsing.phishing.enabled",		false); // firefox >= 50
 
 // PREF: Enable blocking reported attack sites
 // http://kb.mozillazine.org/Browser.safebrowsing.malware.enabled
 // CIS 2.3.5
-user_pref("browser.safebrowsing.malware.enabled",		true);
+user_pref("browser.safebrowsing.malware.enabled",		false);
 
 // PREF: Disable querying Google Application Reputation database for downloaded binary files
 // https://www.mozilla.org/en-US/firefox/39.0/releasenotes/
@@ -789,6 +793,9 @@ user_pref("browser.formfill.expire_days",			0);
 // CIS Version 1.2.0 October 21st, 2011 2.5.7
 // NOTE: CIS says 1, we use 2
 user_pref("browser.sessionstore.privacy_level",			2);
+
+// PREF: Don't remember closed tabs
+user_pref("browser.sessionstore.max_tabs_undo",     0);
 
 // PREF: Delete temporary files on exit
 // https://bugzilla.mozilla.org/show_bug.cgi?id=238789
