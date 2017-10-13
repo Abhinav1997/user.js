@@ -4,6 +4,8 @@
 
 A [user.js](http://kb.mozillazine.org/User.js_file) configuration file for [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/) designed to harden browser settings and make it more secure.
 
+**This is a default template with every possible hardening measure enforced. See the [relaxed branch](https://github.com/pyllyukko/user.js/tree/relaxed) for a variant providing more usability**
+
 [![Build Status](https://travis-ci.org/pyllyukko/user.js.svg?branch=master)](https://travis-ci.org/pyllyukko/user.js)
 
 ### Main goals
@@ -50,6 +52,12 @@ Different download methods are available:
 
 ## Installation
 
+### Backups
+
+Do note that these settings alter your browser behaviour quite a bit, so it is recommended to either create a completely new [profile][15] for Firefox or backup your existing [profile directory](http://kb.mozillazine.org/Profile_folder_-_Firefox) before putting the `user.js` file in place.
+
+To enable the Profile Manager, run Firefox with [command-line arguments](http://kb.mozillazine.org/Command_line_arguments): `firefox --no-remote -P`
+
 ### Single profile installation
 
 Copy `user.js` in your current user profile directory, or (recommended) to a fresh, newly created Firefox profile directory.
@@ -65,11 +73,7 @@ The file should be located at:
 | Sailfish OS + Alien Dalvik | `/opt/alien/data/data/org.mozilla.firefox/files/mozilla/XXXXXXXX.your_profile_name`                                                           |
 | Windows (portable)         | `[firefox directory]\Data\profile\`                                       |
 
-Do note that these settings alter your browser behaviour quite a bit, so it is recommended to either create a completely new [profile][15] for Firefox or backup your existing [profile directory](http://kb.mozillazine.org/Profile_folder_-_Firefox) before putting the `user.js` file in place.
-
-To enable the Profile Manager, run Firefox with [command-line arguments](http://kb.mozillazine.org/Command_line_arguments): `firefox --no-remote -P`
-
-With this installation method, if you change any of `user.js` settings through [`about:config`](http://kb.mozillazine.org/About:config) or Firefox preferences dialogs, they will be reset to the `user.js` defined values after you restart Firefox. This makes sure they're always back to secure defaults when starting the browser. However this prevents presistently changing settings you don't consider appropriate. Either edit `user`.js directly, or use the system-wide installation method described below.
+With this installation method, if you change any of `user.js` settings through [`about:config`](http://kb.mozillazine.org/About:config) or Firefox preferences dialogs, they will be reset to the `user.js` defined values after you restart Firefox. This makes sure they're always back to secure defaults when starting the browser. However this prevents persistently changing settings you don't consider appropriate. Either edit `user.js` directly, or use the system-wide installation method described below.
 
 ### System-wide installation (all platforms)
 
@@ -83,10 +87,10 @@ Copy `user.js` to the Firefox installation directory. The file should be located
 | OS X           | `/Applications/Firefox.app/Contents/Resources/mozilla.cfg` |
 
 In `user.js`, Change `user_pref(` to  one of:
- * `pref(` (the value will be used as default value for all Firefox Profiles where it is not explicitely set, it can be changed in `about:config` and is kept acrosse browser sessions)
+ * `pref(` (the value will be used as default value for all Firefox Profiles where it is not explicitly set, it can be changed in `about:config` and is kept across browser sessions)
  * `lockPref(` (the value will be used as default value on Firefox profile creation, will be locked and can't be changed) in `user.js` or in Firefox's `about:config` or settings.
 
-#### Additional installation steps for Windows/OSX
+#### Additional installation steps for Windows/OS X
 
 Create `local-settings.js` in Firefox installation directory, with the following contents:
 
@@ -102,7 +106,7 @@ This file should be located at:
 | Windows | `C:\Program Files (x86)\Mozilla Firefox\defaults\pref\`      |
 | OS X    | `/Applications/Firefox.app/Contents/Resources/defaults/pref` |
 
-If mozilla.cfg still fails to load, you must add a blank comment to the top of mozilla.cfg like so:
+If `mozilla.cfg` still fails to load, you must add a blank comment to the top of `mozilla.cfg` like so:
 ```
 //
 ```
@@ -146,6 +150,7 @@ HTML5 / [APIs](https://wiki.mozilla.org/WebAPI) / [DOM](https://en.wikipedia.org
 * When geolocation is enabled, don't log geolocation requests to the console
 * Disable raw TCP socket support (mozTCPSocket) [ [1](https://trac.torproject.org/projects/tor/ticket/18863) [2](https://www.mozilla.org/en-US/security/advisories/mfsa2015-97/) [3](https://developer.mozilla.org/docs/Mozilla/B2G_OS/API/TCPSocket) ]
 * Disable leaking network/browser connection information via Javascript
+* Disable network API [ [1](https://developer.mozilla.org/en-US/docs/Web/API/Connection/onchange) [2](https://www.torproject.org/projects/torbrowser/design/#fingerprinting-defenses) ]
 * Disable WebRTC entirely to prevent leaking internal IP addresses (Firefox < 42)
 * Don't reveal your internal IP when WebRTC is enabled (Firefox >= 42) [ [1](https://wiki.mozilla.org/Media/WebRTC/Privacy) [2](https://github.com/beefproject/beef/wiki/Module%3A-Get-Internal-IP-WebRTC) ]
 * Disable WebRTC getUserMedia, screen sharing, audio capture, video capture [ [1](https://wiki.mozilla.org/Media/getUserMedia) [2](https://blog.mozilla.org/futurereleases/2013/01/12/capture-local-camera-and-microphone-streams-with-getusermedia-now-enabled-in-firefox/) [3](https://developer.mozilla.org/en-US/docs/Web/API/Navigator) ]
@@ -169,6 +174,7 @@ HTML5 / [APIs](https://wiki.mozilla.org/WebAPI) / [DOM](https://en.wikipedia.org
 * When webGL is enabled, disable webGL extensions [ [1](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API#WebGL_debugging_and_testing) ]
 * When webGL is enabled, force enabling it even when layer acceleration is not supported [ [1](https://trac.torproject.org/projects/tor/ticket/18603) ]
 * When webGL is enabled, do not expose information about the graphics driver [ [1](https://bugzilla.mozilla.org/show_bug.cgi?id=1171228) [2](https://developer.mozilla.org/en-US/docs/Web/API/WEBGL_debug_renderer_info) ]
+* Spoof dual-core CPU [ [1](https://trac.torproject.org/projects/tor/ticket/21675) [2](https://bugzilla.mozilla.org/show_bug.cgi?id=1360039) ]
 
 ### Misc
 
@@ -242,6 +248,7 @@ Disable Firefox integrated metrics/reporting/experiments, disable potentially in
 * Enable blocking reported attack sites [ [1](http://kb.mozillazine.org/Browser.safebrowsing.malware.enabled) ]
 * Disable querying Google Application Reputation database for downloaded binary files [ [1](https://www.mozilla.org/en-US/firefox/39.0/releasenotes/) [2](https://wiki.mozilla.org/Security/Application_Reputation) ]
 * Disable Pocket [ [1](https://support.mozilla.org/en-US/kb/save-web-pages-later-pocket-firefox) [2](https://github.com/pyllyukko/user.js/issues/143) ]
+* Disable SHIELD [ [1](https://support.mozilla.org/en-US/kb/shield) [2](https://bugzilla.mozilla.org/show_bug.cgi?id=1370801) ]
 
 ### Automatic connections
 
@@ -400,6 +407,7 @@ Hardening your often implies a trade-off with ease-of-use and comes with reduced
 
 <!-- BEGIN PROBLEMS-LIMITATIONS -->
 * Disabling ServiceWorkers breaks functionality on some sites (Google Street View...)
+* Disabling Web Workers breaks "Download as ZIP" functionality on https://mega.nz/, WhatsApp Web and probably others
 * Disabling WebRTC breaks peer-to-peer file sharing tools (reep.io ...)
 * Disabling clipboard events breaks Ctrl+C/X/V copy/cut/paste functionaility in JS-based web applications (Google Docs...)
 * Disabling clipboard operations will break legitimate JS-based "copy to clipboard" functionality
@@ -418,7 +426,8 @@ Hardening your often implies a trade-off with ease-of-use and comes with reduced
 * When Javascript is enabled, Websites can detect use of Private Browsing mode
 * Private browsing breaks Kerberos authentication
 * Disables "Containers" functionality (see below)
-* Installing user.js will **remove your saved passwords** (https://github.com/pyllyukko/user.js/issues/27)
+* Installing user.js will remove your browsing history, caches and local storage.
+* Installing user.js **will remove your saved passwords** (https://github.com/pyllyukko/user.js/issues/27)
 * Clearing open windows on Firefox exit causes 2 windows to open when Firefox starts https://bugzilla.mozilla.org/show_bug.cgi?id=1334945
 * .URL shortcut files will be created with a generic icon
 * OCSP leaks your IP and domains you visit to the CA when OCSP Stapling is not available on visited host

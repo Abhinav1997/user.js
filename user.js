@@ -19,6 +19,7 @@ user_pref("dom.serviceWorkers.enabled",				false);
 // PREF: Disable Web Workers
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers
 // https://www.w3schools.com/html/html5_webworkers.asp
+// NOTICE: Disabling Web Workers breaks "Download as ZIP" functionality on https://mega.nz/, WhatsApp Web and probably others
 user_pref("dom.workers.enabled",					false);
 
 // PREF: Disable web notifications
@@ -68,6 +69,11 @@ user_pref("dom.mozTCPSocket.enabled",				false);
 // https://wicg.github.io/netinfo/#privacy-considerations
 // https://bugzilla.mozilla.org/show_bug.cgi?id=960426
 user_pref("dom.netinfo.enabled",				false);
+
+// PREF: Disable network API
+// https://developer.mozilla.org/en-US/docs/Web/API/Connection/onchange
+// https://www.torproject.org/projects/torbrowser/design/#fingerprinting-defenses
+user_pref("dom.network.enabled",				false);
 
 // PREF: Disable WebRTC entirely to prevent leaking internal IP addresses (Firefox < 42)
 // NOTICE: Disabling WebRTC breaks peer-to-peer file sharing tools (reep.io ...)
@@ -189,6 +195,11 @@ user_pref("webgl.enable-debug-renderer-info",			false);
 // somewhat related...
 //user_pref("pdfjs.enableWebGL",					false);
 
+// PREF: Spoof dual-core CPU
+// https://trac.torproject.org/projects/tor/ticket/21675
+// https://bugzilla.mozilla.org/show_bug.cgi?id=1360039
+user_pref("dom.maxHardwareConcurrency",				2);
+
 /******************************************************************************
  * SECTION: Misc                                                              *
  ******************************************************************************/
@@ -212,10 +223,6 @@ user_pref("browser.search.geoip.url",				"");
 // PREF: Set Accept-Language HTTP header to en-US regardless of Firefox localization
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language
 user_pref("intl.accept_languages",				"en-us, en");
-
-// PREF: Set Firefox locale to en-US
-// http://kb.mozillazine.org/General.useragent.locale
-user_pref("general.useragent.locale",				"en-US");
 
 // PREF: Don't use OS values to determine locale, force using Firefox locale setting
 // http://kb.mozillazine.org/Intl.locale.matchOS
@@ -315,6 +322,7 @@ user_pref("media.video_stats.enabled",				false);
 // Value taken from Tor Browser
 // https://bugzilla.mozilla.org/show_bug.cgi?id=583181
 user_pref("general.buildID.override",				"20100101");
+user_pref("browser.startup.homepage_override.buildID",		"20100101");
 
 // PREF: Prevent font fingerprinting
 // https://browserleaks.com/fonts
@@ -573,6 +581,12 @@ user_pref("browser.safebrowsing.downloads.remote.enabled",	false);
 user_pref("browser.pocket.enabled",				false);
 user_pref("extensions.pocket.enabled",				false);
 
+// PREF: Disable SHIELD
+// https://support.mozilla.org/en-US/kb/shield
+// https://bugzilla.mozilla.org/show_bug.cgi?id=1370801
+user_pref("extensions.shield-recipe-client.enabled",		false);
+user_pref("app.shield.optoutstudies.enabled",			false);
+
 /******************************************************************************
  * SECTION: Automatic connections                                             *
  ******************************************************************************/
@@ -713,7 +727,8 @@ user_pref("browser.cache.offline.enable",			false);
 
 // PREF: Clear history when Firefox closes
 // https://support.mozilla.org/en-US/kb/Clear%20Recent%20History#w_how-do-i-make-firefox-clear-my-history-automatically
-// NOTICE: Installing user.js will **remove your saved passwords** (https://github.com/pyllyukko/user.js/issues/27)
+// NOTICE: Installing user.js will remove your browsing history, caches and local storage.
+// NOTICE: Installing user.js **will remove your saved passwords** (https://github.com/pyllyukko/user.js/issues/27)
 // NOTICE: Clearing open windows on Firefox exit causes 2 windows to open when Firefox starts https://bugzilla.mozilla.org/show_bug.cgi?id=1334945
 user_pref("privacy.sanitize.sanitizeOnShutdown",		true);
 user_pref("privacy.clearOnShutdown.cache",			true);
